@@ -11,7 +11,7 @@ open Microsoft.Extensions.Logging
 let routes = choose [ Todo.Routes.handlers ]
 
 let configureApp (app: IApplicationBuilder) = app.UseGiraffe routes
-let configureServices (services: IServiceCollection) = services.AddGiraffe() |> ignore
+let configureServices (services:IServiceCollection) = services.AddGiraffe() |> ignore
 
 let configureLogging (builder: ILoggingBuilder) =
   let filter (l: LogLevel) = l.Equals LogLevel.Debug
