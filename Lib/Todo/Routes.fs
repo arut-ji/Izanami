@@ -8,7 +8,7 @@ open System
 module _Handlers =
   let findAll: HttpFunc -> HttpContext -> HttpFuncResult =
     GET
-    >=> route "todos"
+    >=> route "/todos"
     >=> fun next ctx ->
           let find = ctx.GetService<TodoFind>()
           let todos = find TodoCriteria.All
@@ -16,7 +16,7 @@ module _Handlers =
 
   let createOne: HttpFunc -> HttpContext -> HttpFuncResult =
     POST
-    >=> route "todos"
+    >=> route "/todos"
     >=> fun next ctx ->
           task {
             let save = ctx.GetService<TodoSave>()
@@ -29,7 +29,26 @@ module _Handlers =
             return! json (save todo) next ctx
           }
 
+  let updateOne: HttpFunc -> HttpContext -> HttpFuncResult =
+    PUT
+    >=> routef "/todos/%s" (fun id next ctx ->
+          task {
+            let save = ctx.GetService<TodoSave>()
+            let! todo = ctx.BindJsonAsync<TodoItem>()
+            let todo = { todo with Id = id }
+            return! json (save todo) next ctx
+          })
+
+  let deleteOne: HttpFunc -> HttpContext -> HttpFuncResult =
+    DELETE
+    >=> routef "/todos/%s" (fun id next ctx ->
+          let delete = ctx.GetService<TodoDelete>()
+          json (delete id) next ctx)
+
+
 module Routes =
   let handlers: HttpFunc -> HttpContext -> HttpFuncResult =
     choose [ _Handlers.findAll
-             _Handlers.createOne ]
+             _Handlers.createOne
+             _Handlers.updateOne
+             _Handlers.deleteOne ]

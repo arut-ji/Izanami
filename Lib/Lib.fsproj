@@ -6,8 +6,8 @@
 
     <ItemGroup>
         <Compile Include="Todo\Types.fs" />
-        <Compile Include="Todo\Routes.fs" />
         <Compile Include="Todo\Mongo.fs" />
+        <Compile Include="Todo\Routes.fs" />
     </ItemGroup>
 
     <ItemGroup>
