@@ -7,10 +7,12 @@
     <ItemGroup>
         <Compile Include="Todo\Types.fs" />
         <Compile Include="Todo\Routes.fs" />
+        <Compile Include="Todo\Mongo.fs" />
     </ItemGroup>
 
     <ItemGroup>
       <PackageReference Include="Giraffe" Version="5.0.0-rc-6" />
+      <PackageReference Include="MongoDB.Driver" Version="2.12.0-beta1" />
     </ItemGroup>
 
 </Project>
